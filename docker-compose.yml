@@ -1,0 +1,26 @@
+version: '3.9'
+
+services:
+
+  postgres:
+    image: postgres:16
+    container_name: flashsale-postgres
+    environment:
+      POSTGRES_DB: flashsale
+      POSTGRES_USER: flashsale
+      POSTGRES_PASSWORD: test
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    command: >
+      bash -c "apt-get update && apt-get install -y tzdata && docker-entrypoint.sh postgres"
+
+  redis:
+    image: redis:7
+    container_name: flashsale-redis
+    ports:
+      - "6379:6379"
+
+volumes:
+  postgres_data:

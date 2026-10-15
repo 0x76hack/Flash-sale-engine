@@ -8,7 +8,9 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
-@Table(name = "orders")
+@Table(name = "orders", uniqueConstraints = {
+        @UniqueConstraint(name = "uk_orders_idempotency_key", columnNames = "idempotency_key")
+})
 @Getter
 @Setter
 @NoArgsConstructor
@@ -27,4 +29,7 @@ public class Order {
     private BigDecimal amount;
 
     private LocalDateTime createdAt;
+
+    @Column(name = "idempotency_key", unique = true, length = 128)
+    private String idempotencyKey;
 }
